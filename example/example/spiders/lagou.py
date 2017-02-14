@@ -11,8 +11,8 @@ class LagouSpider(scrapy.Spider):
     )
 
     def parse(self, response):
-        # self.parse_boot(response=response)
-        self.parse_item(response=response)
+        self.parse_boot(response=response)
+        # self.parse_item(response=response)
 
     def parse_boot(self, response):
         urls = []
