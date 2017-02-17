@@ -9,6 +9,11 @@
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 import logging
+import sys
+import os
+from os.path import dirname
+path = dirname(dirname(os.path.abspath(os.path.dirname(__file__))))
+sys.path.append(path)
 
 BOT_NAME = 'lagou'
 
@@ -27,7 +32,7 @@ ROBOTSTXT_OBEY = True
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-# DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 1
 # The download delay setting will honor only one of:
 # CONCURRENT_REQUESTS_PER_DOMAIN = 16
 # CONCURRENT_REQUESTS_PER_IP = 16
@@ -55,6 +60,10 @@ ROBOTSTXT_OBEY = True
 # DOWNLOADER_MIDDLEWARES = {
 #    'lagou.middlewares.MyCustomDownloaderMiddleware': 543,
 # }
+DOWNLOADER_MIDDLEWARES = {
+    'scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware': None,  # 禁用原有的user-agent
+    'misc.retote_useragent.RotateUserAgentMiddleware': 401  # 自定义ua组件
+}
 
 # Enable or disable extensions
 # See http://scrapy.readthedocs.org/en/latest/topics/extensions.html
@@ -93,11 +102,6 @@ ROBOTSTXT_OBEY = True
 # handle 30X response
 HTTPERROR_ALLOWED_CODES = [301, 302]
 
-# user-agent 组件
-DOWNLOADER_MIDDLEWARES = {
-    'scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware': None,  # 禁用原有的user-agent
-    'lagou.retote_useragent.RotateUserAgentMiddleware': 543
-}
 
 # log 级别
 LOG_LEVEL = logging.DEBUG
