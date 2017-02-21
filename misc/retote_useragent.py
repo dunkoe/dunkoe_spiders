@@ -8,7 +8,7 @@
 
 import random
 from scrapy.contrib.downloadermiddleware.useragent import UserAgentMiddleware
-from agents import AGENTS_ALL
+from agents import AGENTS_ALL, AGENTS_PC
 
 
 # noinspection PyByteLiteral
@@ -25,7 +25,7 @@ class RotateUserAgentMiddleware(UserAgentMiddleware):
         :param spider:
         :return:
         """
-        ua = random.choice(AGENTS_ALL)
+        ua = random.choice(AGENTS_PC)
         if ua:
             import logging
             logging.debug("******** Current UserAgent :%s" % ua)
