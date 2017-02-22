@@ -32,13 +32,18 @@ ROBOTSTXT_OBEY = True
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 1
+DOWNLOAD_DELAY = 2
+
+# 随机一个0.5 * DOWNLOAD_DELAY ~ 1.5 * DOWNLOAD_DELAY 的值做爬虫
+# default:True
+RANDOMIZE_DOWNLOAD_DELAY = True
+
 # The download delay setting will honor only one of:
 # CONCURRENT_REQUESTS_PER_DOMAIN = 16
 # CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
-# COOKIES_ENABLED = False
+COOKIES_ENABLED = False
 
 # Disable Telnet Console (enabled by default)
 # TELNETCONSOLE_ENABLED = False
@@ -61,7 +66,7 @@ DOWNLOAD_DELAY = 1
 #    'lagou.middlewares.MyCustomDownloaderMiddleware': 543,
 # }
 DOWNLOADER_MIDDLEWARES = {
-    'scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware': None,  # 禁用原有的user-agent
+    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,  # 禁用原有的user-agent
     'misc.retote_useragent.RotateUserAgentMiddleware': 401  # 自定义ua组件
 }
 
@@ -76,7 +81,9 @@ DOWNLOADER_MIDDLEWARES = {
 # ITEM_PIPELINES = {
 #    'lagou.pipelines.SomePipeline': 300,
 # }
-
+ITEM_PIPELINES = {
+   'lagou.pipelines.JsonWriterPipeline': 300,
+}
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
 # AUTOTHROTTLE_ENABLED = True
@@ -104,4 +111,4 @@ HTTPERROR_ALLOWED_CODES = [301, 302]
 
 
 # log 级别
-LOG_LEVEL = logging.DEBUG
+LOG_LEVEL = logging.INFO

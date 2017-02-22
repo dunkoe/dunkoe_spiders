@@ -7,8 +7,6 @@ AGENTS_PC = [
     "Mozilla/2.02E (Win95; U)",
     "Mozilla/3.0 (compatible; NetPositive/2.1.1; BeOS)",
     "Mozilla/3.01Gold (Win95; I)",
-    "Mozilla/4.0 (PDA; PalmOS/sony/model prmr/Revision:1.1.54 (en)) NetFront/3.0",
-    "Mozilla/4.0 (PSP (PlayStation Portable); 2.00)",
     "Mozilla/4.0 (compatible; Dillo 3.0)",
     "Mozilla/4.0 (compatible; GoogleToolbar 4.0.1019.5266-big; Windows XP 5.1; MSIE 6.0.2900.2180)",
     "Mozilla/4.0 (compatible; Linux 2.6.22) NetFront/3.4 Kindle/2.0 (screen 600x800)",
@@ -24,7 +22,6 @@ AGENTS_PC = [
     "Mozilla/4.0 (compatible; MSIE 6.0; Windows CE; IEMobile 6.12; Microsoft ZuneHD 4.3)",
     "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0; en) Opera 8.0",
     "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)",
-    "Mozilla/4.0 (compatible; MSIE 6.0; j2me) ReqwirelessWeb/3.5",
     "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Avant Browser; Avant Browser; .NET CLR 1.0.3705; .NET CLR 1.1.4322; Media Center PC 4.0; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30)",
     "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; winfx; .NET CLR 1.1.4322; .NET CLR 2.0.50727; Zune 2.0) ",
     "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)",
@@ -267,6 +264,7 @@ AGENTS_MOB = [
     "MOT-V177/0.1.75 UP.Browser/6.2.3.9.c.12 (GUI) MMP/2.0 UP.Link/6.3.1.13.0",
     "MOT-V9mm/00.62 UP.Browser/6.2.3.4.c.1.123 (GUI) MMP/2.0",
     "MOTORIZR-Z8/46.00.00 Mozilla/4.0 (compatible; MSIE 6.0; Symbian OS; 356) Opera 8.65 [it] UP.Link/6.3.0.0.0",
+    "Mozilla/4.0 (compatible; MSIE 6.0; j2me) ReqwirelessWeb/3.5",
     "Mozilla/4.1 (compatible; MSIE 5.0; Symbian OS; Nokia 6600;452) Opera 6.20 [en-US]",
     "Mozilla/5.0 (Android; Linux armv7l; rv:10.0.1) Gecko/20100101 Firefox/10.0.1 Fennec/10.0.1",
     "Mozilla/5.0 (Android; Linux armv7l; rv:2.0.1) Gecko/20100101 Firefox/4.0.1 Fennec/2.0.1",
@@ -417,6 +415,8 @@ AGENTS_MOB = [
 
 ]
 AGENTS_OTHER = [
+    "Mozilla/4.0 (PDA; PalmOS/sony/model prmr/Revision:1.1.54 (en)) NetFront/3.0",
+    "Mozilla/4.0 (PSP (PlayStation Portable); 2.00)",
     "AdsBot-Google ( http://www.google.com/adsbot.html)",
     "Avant Browser/1.2.789rel1 (http://www.avantbrowser.com)",
     "Baiduspider ( http://www.baidu.com/search/spider.htm)",
