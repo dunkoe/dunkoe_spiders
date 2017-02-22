@@ -26,4 +26,5 @@ class LagouItem(scrapy.Item):
     cpn_field = scrapy.Field()
     cpn_web_page = scrapy.Field()
     employ_type = scrapy.Field()
+    biz_area = scrapy.Field()
     address = scrapy.Field()

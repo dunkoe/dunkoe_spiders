@@ -15,10 +15,29 @@ from misc.dspider import DSpider
 import logging
 
 
+def filter_line_diagonal(value):
+    value = value.strip().strip('/').strip()
+    if value != '':
+        return value
+
+
+def filter_line_combine(value):
+    value = value.strip().strip('-').strip()
+    if value != '':
+        return value
+
+
 class LagouLoader(ItemLoader):
-    default_input_processor = TakeFirst()
-    # title_in = MapCompose(unicode.strip)
-    # title_out = Join()
+    default_input_processor = MapCompose(unicode.strip, filter_line_diagonal)
+    default_output_processor = TakeFirst()
+
+    advantage_in = MapCompose(unicode.strip)
+    advantage_out = Join()
+
+    description_in = MapCompose(unicode.strip)
+    description_out = Join()
+
+    address_in = MapCompose(unicode.strip, filter_line_combine)
 
 
 # noinspection PyMethodMayBeStatic
@@ -38,7 +57,7 @@ class LagouSpider(DSpider):
         lagou_loader = LagouLoader(item=LagouItem(), response=response)
         lagou_loader.add_xpath('title',
                                "//div[contains(@class, 'ceil')]/span[contains(@class,'ceil-job')]/text()")
-        # lagou_loader.add_xpath('lagou_id',"")
+        lagou_loader.add_xpath('lagou_id',"//input[@id='jobid']/@value")
         lagou_loader.add_xpath('salary',
                                "//div[contains(@class, 'position-content-l')]/dd[contains(@class,'job_request')]/p/span[1]/text()")
         lagou_loader.add_xpath('city',
@@ -51,11 +70,18 @@ class LagouSpider(DSpider):
                                "//div[contains(@class, 'position-content-l')]/dd[contains(@class,'job_request')]/p/span[5]/text()")
         lagou_loader.add_xpath('tag', "//ul[contains(@class, 'position-label')]/li[contains(@class, 'labels')]/text()")
         lagou_loader.add_xpath('advantage', "//dd[contains(@class, 'job-advantage')]/p[1]/text()")
-        lagou_loader.add_xpath('district', "//div[contains(@class, 'work_addr')]/a/text()")
-        lagou_loader.add_xpath('description', "//dd[contains(@class, 'job-bt')]/div//text()")
+        lagou_loader.add_xpath('district', "//div[contains(@class, 'work_addr')]/a[2]/text()")
+        lagou_loader.add_xpath('description', "//dd[contains(@class, 'job_bt')]/div//text()")
         lagou_loader.add_xpath('cpn_name', "//dl[contains(@class, 'job_company')]//h2[contains(@class, 'fl')]/text()")
-        lagou_loader.add_xpath('cpn_finance_round', "//dl[contains(@class, 'job_company')]/ul[contains(@class, 'c_feature')]/li[2]/text()")
-        lagou_loader.add_xpath('cpn_scale', "//dl[contains(@class, 'job_company')]/ul[contains(@class, 'c_feature')]/li[3]/text()")
-        lagou_loader.add_xpath('cpn_field', "//dl[contains(@class, 'job_company')]/ul[contains(@class, 'c_feature')]/li[1]/text()")
-        lagou_loader.add_xpath('cpn_field', "//dl[contains(@class, 'job_company')]/ul[contains(@class, 'c_feature')]/li[4]/text()")
+        lagou_loader.add_xpath('cpn_finance_round',
+                               "//dl[contains(@class, 'job_company')]//ul[contains(@class, 'c_feature')]/li[2]/text()")
+        lagou_loader.add_xpath('cpn_scale',
+                               "//dl[contains(@class, 'job_company')]//ul[contains(@class, 'c_feature')]/li[3]/text()")
+        lagou_loader.add_xpath('cpn_field',
+                               "//dl[contains(@class, 'job_company')]//ul[contains(@class, 'c_feature')]/li[1]/text()")
+        lagou_loader.add_xpath('cpn_web_page',
+                               "//dl[contains(@class, 'job_company')]//ul[contains(@class, 'c_feature')]/li[4]/a/text()")
+        lagou_loader.add_xpath('biz_area', "//div[contains(@class, 'work_addr')]/a[3]/text()")
+        lagou_loader.add_xpath('address', "//div[contains(@class, 'work_addr')]/text()")
+
         return lagou_loader.load_item()
