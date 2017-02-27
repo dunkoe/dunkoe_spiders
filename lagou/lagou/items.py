@@ -28,3 +28,4 @@ class LagouItem(scrapy.Item):
     employ_type = scrapy.Field()
     biz_area = scrapy.Field()
     address = scrapy.Field()
+    category = scrapy.Field()

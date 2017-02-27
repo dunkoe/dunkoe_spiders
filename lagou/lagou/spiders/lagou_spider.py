@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import scrapy
+from scrapy import Request
 from scrapy.loader import ItemLoader
 from scrapy.linkextractors import LinkExtractor
 # PyCharm open dunkoe_spiders as root will raise an Error, Ignore
@@ -8,7 +9,7 @@ from scrapy.linkextractors import LinkExtractor
 from lagou.items import LagouItem
 
 # noinspection PyMethodMayBeStatic
-from scrapy.loader.processors import TakeFirst, MapCompose, Join
+from scrapy.loader.processors import TakeFirst, MapCompose, Join, Identity
 from scrapy.spiders import Rule
 
 from misc.dspider import DSpider
@@ -39,6 +40,9 @@ class LagouLoader(ItemLoader):
 
     address_in = MapCompose(unicode.strip, filter_line_combine)
 
+    category_in = Identity()
+    category_out = TakeFirst()
+
 
 # noinspection PyMethodMayBeStatic
 class LagouSpider(DSpider):
@@ -49,15 +53,24 @@ class LagouSpider(DSpider):
     )
 
     rules = (
-        Rule(LinkExtractor(allow="/jobs/[0-9]+\.html"), callback='parse_1', follow=False),
-        Rule(LinkExtractor(allow="/zhaopin/.*/.*"), follow=True),
+        # Rule(LinkExtractor(allow="/jobs/[0-9]+\.html"), callback='parse_1', follow=False),
+        Rule(LinkExtractor(allow="/zhaopin/.*/.*"), callback='parse_0', follow=True),
     )
 
+    def parse_0(self, response):
+        url = response.request.url
+        category = url.split("/")[4].decode('unicode-escape')
+        child_urls = response.xpath('//a[contains(@class, "position_link")]/@href').re(r'/jobs/[0-9]+\.html')
+        for child_url in child_urls:
+            return Request("https://" + "www.lagou.com" + child_url, meta={'category': category}, callback=self.parse_1)
+
     def parse_1(self, response):
+        category = response.meta['category']
         lagou_loader = LagouLoader(item=LagouItem(), response=response)
+        # referer = response.request.headers.get('Referer', None) ## 如何从response 中获取请求的一些信息
         lagou_loader.add_xpath('title',
                                "//div[contains(@class, 'ceil')]/span[contains(@class,'ceil-job')]/text()")
-        lagou_loader.add_xpath('lagou_id',"//input[@id='jobid']/@value")
+        lagou_loader.add_xpath('lagou_id', "//input[@id='jobid']/@value")
         lagou_loader.add_xpath('salary',
                                "//div[contains(@class, 'position-content-l')]/dd[contains(@class,'job_request')]/p/span[1]/text()")
         lagou_loader.add_xpath('city',
@@ -83,5 +96,5 @@ class LagouSpider(DSpider):
                                "//dl[contains(@class, 'job_company')]//ul[contains(@class, 'c_feature')]/li[4]/a/text()")
         lagou_loader.add_xpath('biz_area', "//div[contains(@class, 'work_addr')]/a[3]/text()")
         lagou_loader.add_xpath('address', "//div[contains(@class, 'work_addr')]/text()")
-
+        lagou_loader.add_value('category', category)
         return lagou_loader.load_item()
