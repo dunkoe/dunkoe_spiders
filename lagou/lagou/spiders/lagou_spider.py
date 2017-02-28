@@ -61,8 +61,9 @@ class LagouSpider(DSpider):
         url = response.request.url
         category = url.split("/")[4].decode('unicode-escape')
         child_urls = response.xpath('//a[contains(@class, "position_link")]/@href').re(r'/jobs/[0-9]+\.html')
+        # logging.debug(child_urls)
         for child_url in child_urls:
-            return Request("https://" + "www.lagou.com" + child_url, meta={'category': category}, callback=self.parse_1)
+            yield Request("https://" + "www.lagou.com" + child_url, meta={'category': category}, callback=self.parse_1)
 
     def parse_1(self, response):
         category = response.meta['category']

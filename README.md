@@ -11,3 +11,8 @@
 |2 | parse_2|
 |3 | parse_3 |
 | ... | ... |
+
+
+### 如何获取一个user-agent 池
+
+[点此访问](http://www.useragentstring.com/pages/useragentstring.php)
